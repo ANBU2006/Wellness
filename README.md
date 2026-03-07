@@ -1,4 +1,4 @@
-# Wellness+ — Health & Wellness Coaching App
+# Wellness+ — Digital Wellness Recommendation Engine
 
 A full-stack **MERN** application for health coaching, BMI tracking, daily streak monitoring, and personalized diet & exercise recommendations.
 
