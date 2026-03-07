@@ -18,9 +18,3 @@ npm-debug.log*
 # OS files
 .DS_Store
 Thumbs.db
-
-# Temp/debug scripts (not needed in repo)
-server/fixCategories.js
-server/verifyBMI.js
-server/check_db.js
-server/testUser.js
