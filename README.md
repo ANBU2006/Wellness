@@ -79,13 +79,18 @@ cd server && npm install
 cd ../client && npm install
 ```
 
-### 3. Environment Variables
-Create a `.env` file inside the `server/` folder:
+### 3. Setup Environment Variables
+Inside the `server/` folder, create a `.env` file:
+```
+cp server/.env.example server/.env
+```
+Then open `server/.env` and set your values:
 ```
 MONGODB_URI=mongodb://localhost:27017/wellness
-JWT_SECRET=your_jwt_secret_key
+JWT_SECRET=any_random_secret_key
 PORT=5000
 ```
+> ⚠️ Without this `.env` file the server will NOT start.
 
 ### 4. Seed the Database
 ```bash
