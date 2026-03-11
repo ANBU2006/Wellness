@@ -149,14 +149,3 @@ node scripts/dedupeHealthRecords.js
 Shared backend utility functions for consistent date key generation, day range lookup, and record deduplication logic used across controllers.
 
 ---
-
-## 🎨 UI / UX Improvements (Latest Update)
-
-- **Increased font sizes** globally — base font bumped to `18–21px`, all section headings, labels, and body text scaled up for better readability
-- **Improved text contrast** — replaced near-invisible light grays (`#94A3B8`, `#64748B`) with darker, more accessible colors (`#475569`, `#334155`, `#1e293b`) across all pages
-- **Table headers** — column headings in Progress and Coach Dashboard now use larger, darker text
-- **Form labels** — all form field labels made bolder and more visible
-- **Gradient banners** — subheading text on hero banners changed from 75% to 92% white opacity for maximum legibility
-- **Navbar** — link text and logout button font sizes increased, inactive link color darkened
-- **Coach Dashboard** — client list, stats labels, and advice history text made larger and more readable
-- **Profile page** — detail card labels, stat labels, and activity description all improved
