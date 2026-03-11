@@ -103,14 +103,13 @@ const Dashboard = () => {
             </div>
 
             {/* ── BMI + Advice row ── */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem', alignItems: 'stretch' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1.5rem', marginBottom: '1.5rem', alignItems: 'stretch' }}>
                 {/* BMI Card */}
                 <div style={{
                     background: bmiTheme.bg, border: `1.5px solid ${bmiTheme.border}`,
-                    borderRadius: '1.25rem', padding: '1.75rem',
+                    borderRadius: '1.25rem', padding: '1.25rem',
                     boxShadow: '0 4px 16px rgba(0,0,0,0.04)',
                     display: 'flex', flexDirection: 'column', gap: '0.5rem',
-                    minHeight: '100%',
                     alignItems: 'center',
                     justifyContent: 'center',
                     textAlign: 'center',

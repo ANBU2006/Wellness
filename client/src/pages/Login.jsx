@@ -58,7 +58,7 @@ const Login = ({ defaultIsLogin = true }) => {
 
             <div style={{
                 width: '100%',
-                maxWidth: isLogin ? '440px' : '560px',
+                maxWidth: isLogin ? '520px' : '640px',
                 background: 'white',
                 borderRadius: '1.75rem',
                 padding: '2.5rem',

@@ -8,13 +8,11 @@ A full-stack **MERN** application for health coaching, BMI tracking, daily strea
 
 | Layer      | Technology                        |
 |------------|-----------------------------------|
-| Frontend   | React JS (Vite)                   |
+| Frontend   | React JS                          |
 | Backend    | Node JS + Express JS              |
 | Database   | MongoDB                           |
 | Auth       | JWT (JSON Web Token)              |
-| Styling    | Vanilla CSS + Inline Styles       |
-| Icons      | Lucide React                      |
-| Charts     | Chart.js + react-chartjs-2        |
+| Charts     | Chart.js                          |
 
 ---
 
