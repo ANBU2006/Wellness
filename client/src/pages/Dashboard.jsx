@@ -94,32 +94,36 @@ const Dashboard = () => {
                 <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '180px', height: '180px', borderRadius: '50%', background: 'rgba(255,255,255,0.07)' }} />
                 <div style={{ position: 'relative' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                        <Heart size={18} color="rgba(255,255,255,0.8)" />
-                        <span style={{ color: 'rgba(255,255,255,0.8)', fontWeight: 600, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Health Overview</span>
+                        <Heart size={20} color="rgba(255,255,255,0.95)" />
+                        <span style={{ color: 'rgba(255,255,255,0.95)', fontWeight: 700, fontSize: '0.95rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Health Overview</span>
                     </div>
-                    <h1 style={{ fontSize: '1.875rem', fontWeight: 800, color: 'white', marginBottom: '4px' }}>Pulse Dashboard</h1>
-                    <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.9rem' }}>Here's your personalised health summary for today.</p>
+                    <h1 style={{ fontSize: '2.1rem', fontWeight: 800, color: 'white', marginBottom: '6px' }}>Pulse Dashboard</h1>
+                    <p style={{ color: 'rgba(255,255,255,0.92)', fontSize: '1rem' }}>Here's your personalised health summary for today.</p>
                 </div>
             </div>
 
             {/* ── BMI + Advice row ── */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem', alignItems: 'stretch' }}>
                 {/* BMI Card */}
                 <div style={{
                     background: bmiTheme.bg, border: `1.5px solid ${bmiTheme.border}`,
                     borderRadius: '1.25rem', padding: '1.75rem',
                     boxShadow: '0 4px 16px rgba(0,0,0,0.04)',
                     display: 'flex', flexDirection: 'column', gap: '0.5rem',
+                    minHeight: '100%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
                 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.25rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '0.25rem', width: '100%' }}>
                         <div style={{ width: '36px', height: '36px', borderRadius: '0.625rem', background: bmiTheme.color + '22', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <TrendingUp size={18} color={bmiTheme.color} />
                         </div>
-                        <p style={{ fontWeight: 700, fontSize: '0.75rem', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Current BMI</p>
+                        <p style={{ fontWeight: 700, fontSize: '0.85rem', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Current BMI</p>
                     </div>
                     <p style={{ fontSize: '3.5rem', fontWeight: 900, color: bmiTheme.color, lineHeight: 1 }}>{currentBMI || '--'}</p>
                     <span style={{
-                        alignSelf: 'start', padding: '4px 12px',
+                        alignSelf: 'center', padding: '4px 12px',
                         background: bmiTheme.color + '18', color: bmiTheme.color,
                         borderRadius: '9999px', fontWeight: 700, fontSize: '0.8rem',
                         border: `1px solid ${bmiTheme.border}`,
@@ -134,12 +138,12 @@ const Dashboard = () => {
                 </div>
 
                 {/* Coach Advice Card */}
-                <div className="card" style={{ padding: '1.75rem' }}>
+                <div className="card" style={{ padding: '1.75rem', minHeight: '100%' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.25rem' }}>
                         <span style={{ display: 'inline-flex', padding: '6px', background: '#EEF2FF', borderRadius: '8px', color: '#5B6CFF' }}>
                             <MessageSquare size={16} />
                         </span>
-                        <h2 style={{ fontSize: '1.05rem', fontWeight: 700 }}>Advice from Coach</h2>
+                        <h2 style={{ fontSize: '1.15rem', fontWeight: 700 }}>Advice from Coach</h2>
                     </div>
                     {advice ? (
                         <div style={{
@@ -148,8 +152,8 @@ const Dashboard = () => {
                             borderRadius: '1rem',
                             borderLeft: '4px solid #5B6CFF',
                         }}>
-                            <p style={{ fontStyle: 'italic', color: '#334155', lineHeight: 1.7, fontSize: '0.95rem' }}>"{advice.content}"</p>
-                            <p style={{ marginTop: '0.75rem', fontSize: '0.8rem', color: '#94A3B8', fontWeight: 600 }}>
+                            <p style={{ fontStyle: 'italic', color: '#1e293b', lineHeight: 1.7, fontSize: '1rem' }}>"{advice.content}"</p>
+                            <p style={{ marginTop: '0.75rem', fontSize: '0.9rem', color: '#475569', fontWeight: 600 }}>
                                 — Coach {advice.coachId?.name}, {new Date(advice.date).toLocaleDateString()}
                             </p>
                         </div>
@@ -158,109 +162,28 @@ const Dashboard = () => {
                             <div style={{ width: '42px', height: '42px', borderRadius: '0.75rem', background: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                 <MessageSquare size={20} color="#5B6CFF" />
                             </div>
-                            <p style={{ color: '#94A3B8', fontSize: '0.9rem' }}>No advice received yet. Your coach will update you soon.</p>
+                            <p style={{ color: '#475569', fontSize: '1rem', fontWeight: 500 }}>No advice received yet. Your coach will update you soon.</p>
                         </div>
                     )}
                 </div>
             </div>
 
-            {/* ── BMI Range Reference + Streak row ── */}
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
-
-                {/* BMI Range Reference Card */}
-                <div className="card" style={{ padding: '1.5rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.25rem' }}>
-                        <span style={{ display: 'inline-flex', padding: '6px', background: '#F0FDF4', borderRadius: '8px', color: '#15803D' }}>
-                            <TrendingUp size={16} />
-                        </span>
-                        <h2 style={{ fontSize: '1.05rem', fontWeight: 700 }}>BMI Range Guide</h2>
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem' }}>
-                        {bmiRanges.map((r) => {
-                            const isActive = category === r.label;
-                            return (
-                                <div key={r.label} style={{
-                                    background: r.bg,
-                                    border: `2px solid ${isActive ? r.color : 'transparent'}`,
-                                    borderRadius: '0.875rem',
-                                    padding: '0.875rem 0.75rem',
-                                    textAlign: 'center',
-                                    position: 'relative',
-                                    boxShadow: isActive ? `0 4px 14px ${r.color}33` : 'none',
-                                    transition: 'all 0.2s ease',
-                                }}>
-                                    {isActive && (
-                                        <span style={{
-                                            position: 'absolute', top: '-10px', left: '50%', transform: 'translateX(-50%)',
-                                            background: r.color, color: 'white', fontSize: '0.6rem', fontWeight: 800,
-                                            padding: '2px 8px', borderRadius: '9999px', whiteSpace: 'nowrap',
-                                        }}>YOU ARE HERE</span>
-                                    )}
-                                    <p style={{ fontSize: '0.72rem', fontWeight: 800, color: r.color, textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '4px' }}>{r.label}</p>
-                                    <p style={{ fontSize: '1rem', fontWeight: 900, color: r.color }}>{r.range}</p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-
-                {/* Daily Entry Streak Card */}
-                <div className="card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem', alignSelf: 'flex-start' }}>
-                        <span style={{ display: 'inline-flex', padding: '6px', background: '#FFF7ED', borderRadius: '8px', color: '#F97316' }}>
-                            <Activity size={16} />
-                        </span>
-                        <h2 style={{ fontSize: '1.05rem', fontWeight: 700 }}>Daily Streak</h2>
-                    </div>
-                    <div style={{
-                        width: '90px', height: '90px', borderRadius: '50%',
-                        background: streak > 0
-                            ? 'linear-gradient(135deg, #F97316, #EF4444)'
-                            : 'linear-gradient(135deg, #E2E8F0, #CBD5E1)',
-                        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                        boxShadow: streak > 0 ? '0 8px 24px rgba(249,115,22,0.35)' : 'none',
-                        marginBottom: '0.875rem',
-                    }}>
-                        <span style={{ fontSize: '2rem', lineHeight: 1 }}>{streakEmoji}</span>
-                        <span style={{ fontSize: '0.65rem', fontWeight: 800, color: streak > 0 ? 'rgba(255,255,255,0.9)' : '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                            {streak} {streak === 1 ? 'day' : 'days'}
-                        </span>
-                    </div>
-                    <p style={{ fontSize: '0.8rem', fontWeight: 600, color: streak > 0 ? '#F97316' : '#94A3B8', lineHeight: 1.4 }}>{streakMsg}</p>
-                    <button
-                        onClick={() => navigate('/progress')}
-                        style={{
-                            marginTop: '0.875rem', padding: '0.5rem 1.25rem',
-                            background: streak > 0 ? 'linear-gradient(135deg, #F97316, #EF4444)' : '#5B6CFF',
-                            color: 'white', border: 'none', borderRadius: '0.75rem',
-                            fontWeight: 700, fontSize: '0.8rem', fontFamily: 'inherit', cursor: 'pointer',
-                            boxShadow: streak > 0 ? '0 4px 12px rgba(249,115,22,0.35)' : '0 4px 12px rgba(91,108,255,0.3)',
-                            transition: 'all 0.2s ease',
-                        }}
-                        onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
-                        onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-                    >
-                        {streak > 0 ? 'Keep It Going →' : 'Log Today →'}
-                    </button>
-                </div>
-            </div>
-
             {/* ── Diet + Exercise row ── */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem', alignItems: 'stretch' }}>
                 {/* Diet */}
-                <div className="card" style={{ padding: '1.75rem' }}>
+                <div className="card" style={{ padding: '1.75rem', minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.25rem' }}>
                         <span style={{ display: 'inline-flex', padding: '6px', background: '#F0FDF4', borderRadius: '8px', color: '#22C55E' }}>
                             <Apple size={16} />
                         </span>
-                        <h2 style={{ fontSize: '1.05rem', fontWeight: 700 }}>Diet Recommendations</h2>
+                        <h2 style={{ fontSize: '1.15rem', fontWeight: 700 }}>Diet Recommendations</h2>
                     </div>
                     {recommendations ? (
-                        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem', flex: 1 }}>
                             {recommendations.dietRecommendations.map((item, i) => (
                                 <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '0.625rem 0.875rem', background: '#F0FDF4', borderRadius: '0.75rem' }}>
                                     <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22C55E', marginTop: '7px', flexShrink: 0 }} />
-                                    <span style={{ fontSize: '0.875rem', color: '#334155', lineHeight: 1.5 }}>{item}</span>
+                                    <span style={{ fontSize: '0.95rem', color: '#1e293b', lineHeight: 1.5, fontWeight: 500 }}>{item}</span>
                                 </li>
                             ))}
                         </ul>
@@ -272,24 +195,24 @@ const Dashboard = () => {
                 </div>
 
                 {/* Exercise */}
-                <div className="card" style={{ padding: '1.75rem' }}>
+                <div className="card" style={{ padding: '1.75rem', minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.25rem' }}>
                         <span style={{ display: 'inline-flex', padding: '6px', background: '#FDF4FF', borderRadius: '8px', color: '#A855F7' }}>
                             <Dumbbell size={16} />
                         </span>
-                        <h2 style={{ fontSize: '1.05rem', fontWeight: 700 }}>Exercise Plan</h2>
+                        <h2 style={{ fontSize: '1.15rem', fontWeight: 700 }}>Exercise Plan</h2>
                     </div>
                     {recommendations ? (
-                        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem', flex: 1 }}>
                             {recommendations.exerciseRecommendations.map((item, i) => (
                                 <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '0.625rem 0.875rem', background: '#FDF4FF', borderRadius: '0.75rem' }}>
                                     <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#A855F7', marginTop: '7px', flexShrink: 0 }} />
-                                    <span style={{ fontSize: '0.875rem', color: '#334155', lineHeight: 1.5 }}>{item}</span>
+                                    <span style={{ fontSize: '0.95rem', color: '#1e293b', lineHeight: 1.5, fontWeight: 500 }}>{item}</span>
                                 </li>
                             ))}
                         </ul>
                     ) : (
-                        <p style={{ color: '#94A3B8', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                        <p style={{ color: '#475569', fontSize: '1rem', lineHeight: 1.6 }}>
                             Update your health metrics to unlock a personalised exercise plan tailored to your BMI.
                         </p>
                     )}
@@ -308,8 +231,8 @@ const Dashboard = () => {
                         <TrendingUp size={24} color="white" />
                     </div>
                     <div>
-                        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '2px' }}>Track Your Progress</h2>
-                        <p style={{ color: '#94A3B8', fontSize: '0.875rem' }}>Log BMI, weight, sleep & exercise — view your trend charts.</p>
+                        <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '4px' }}>Track Your Progress</h2>
+                        <p style={{ color: '#475569', fontSize: '0.95rem', fontWeight: 500 }}>Log BMI, weight, sleep & exercise — view your trend charts.</p>
                     </div>
                 </div>
                 <button
@@ -318,7 +241,7 @@ const Dashboard = () => {
                         display: 'inline-flex', alignItems: 'center', gap: '6px',
                         background: 'linear-gradient(135deg, #5B6CFF 0%, #7C3AED 100%)',
                         color: 'white', border: 'none', borderRadius: '0.875rem',
-                        padding: '0.75rem 1.5rem', fontWeight: 700, fontSize: '0.9rem',
+                        padding: '0.75rem 1.5rem', fontWeight: 700, fontSize: '1rem',
                         fontFamily: 'inherit', cursor: 'pointer',
                         boxShadow: '0 6px 18px rgba(91,108,255,0.4)',
                         transition: 'all 0.2s ease',

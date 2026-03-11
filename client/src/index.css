@@ -18,6 +18,10 @@
   }
 }
 
+html {
+  font-size: clamp(18px, 0.5vw + 16px, 21px);
+}
+
 :root {
   --primary: #4f46e5;
   --primary-hover: #4338ca;
@@ -25,8 +29,8 @@
   --accent: #f59e0b;
   --background: #f8fafc;
   --surface: #ffffff;
-  --text-main: #1e293b;
-  --text-muted: #64748b;
+  --text-main: #0f172a;
+  --text-muted: #475569;
   --success: #10b981;
   --warning: #f59e0b;
   --error: #ef4444;
@@ -46,8 +50,15 @@ body {
   font-family: 'Outfit', sans-serif;
   background-color: var(--background);
   color: var(--text-main);
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
 }
 
 .auth-container {
@@ -87,18 +98,20 @@ body {
 
 .form-label {
   display: block;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   margin-bottom: 0.5rem;
+  color: var(--text-main);
 }
 
 .form-input {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1rem;
   border: 1px solid var(--border);
   border-radius: 0.75rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 1.05rem;
+  color: var(--text-main);
   transition: all 0.2s;
 }
 
@@ -111,9 +124,10 @@ body {
 .btn {
   display: block;
   width: 100%;
-  padding: 0.75rem 1.5rem;
+  padding: 0.9rem 1.5rem;
   border-radius: 0.75rem;
   font-weight: 600;
+  font-size: 1rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s;
@@ -154,7 +168,7 @@ body {
 .card {
   background: var(--surface);
   border-radius: 1.25rem;
-  padding: 1.5rem;
+  padding: 1.65rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   margin-bottom: 1.5rem;
   border: 1px solid var(--border);
@@ -185,10 +199,10 @@ body {
 
 .stat-label {
   color: var(--text-muted);
-  font-size: 0.875rem;
+  font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .bmi-badge {
@@ -225,11 +239,12 @@ body {
 
 .pill-item {
   display: block;
-  padding: 0.75rem;
+  padding: 0.85rem 0.9rem;
   background: #f1f5f9;
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
-  font-size: 0.9375rem;
+  font-size: 1.05rem;
+  color: var(--text-main);
 }
 
 .navbar {
@@ -247,7 +262,8 @@ body {
 .nav-link {
   color: var(--text-muted);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 1.05rem;
   margin-right: 1.5rem;
   transition: color 0.2s;
 }

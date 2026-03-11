@@ -109,8 +109,8 @@ const CoachProfile = ({ profile, onEdit }) => {
                             <span style={{
                                 display: 'inline-flex', alignItems: 'center', gap: '5px',
                                 background: 'rgba(255,255,255,0.2)',
-                                color: 'white', fontWeight: 700, fontSize: '0.75rem',
-                                padding: '4px 12px', borderRadius: '9999px',
+                                color: 'white', fontWeight: 700, fontSize: '0.85rem',
+                                padding: '5px 14px', borderRadius: '9999px',
                                 letterSpacing: '0.06em', textTransform: 'uppercase',
                                 border: '1px solid rgba(255,255,255,0.3)',
                                 backdropFilter: 'blur(6px)',
@@ -158,7 +158,7 @@ const CoachProfile = ({ profile, onEdit }) => {
                     Coach Details
                 </h2>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
                     {details.map((item, i) => (
                         <div key={i} style={{
                             display: 'flex', alignItems: 'center', gap: '0.875rem',
@@ -167,6 +167,7 @@ const CoachProfile = ({ profile, onEdit }) => {
                             borderRadius: '0.875rem',
                             border: '1px solid #E2E8F0',
                             transition: 'box-shadow 0.2s',
+                            gridColumn: 'span 1',
                         }}
                             onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 12px rgba(91,108,255,0.1)'}
                             onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
@@ -180,10 +181,10 @@ const CoachProfile = ({ profile, onEdit }) => {
                                 {item.icon}
                             </div>
                             <div style={{ minWidth: 0 }}>
-                                <p style={{ fontSize: '0.7rem', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '2px' }}>
+                                <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '2px' }}>
                                     {item.label}
                                 </p>
-                                <p style={{ fontWeight: 600, color: '#1E293B', fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                <p title={item.value} style={{ fontWeight: 600, color: '#1E293B', fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                     {item.value}
                                 </p>
                             </div>
@@ -208,6 +209,7 @@ const CoachProfile = ({ profile, onEdit }) => {
                             borderRadius: '1.125rem',
                             padding: '1.5rem 1.25rem',
                             display: 'flex', flexDirection: 'column', gap: '1rem',
+                            alignItems: 'center', textAlign: 'center',
                             border: '1px solid rgba(0,0,0,0.04)',
                             transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                             cursor: 'default',
@@ -233,7 +235,7 @@ const CoachProfile = ({ profile, onEdit }) => {
                             </div>
 
                             <div>
-                                <p style={{ fontSize: '0.75rem', fontWeight: 600, color: '#64748B', marginBottom: '4px' }}>
+                                <p style={{ fontSize: '0.85rem', fontWeight: 600, color: '#475569', marginBottom: '4px' }}>
                                     {stat.label}
                                 </p>
                                 {statsLoading ? (
@@ -359,13 +361,14 @@ const UserProfile = ({ profile, onEdit }) => {
                     </span>
                     Personal Details
                 </h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
                     {details.map((item, i) => (
                         <div key={i} style={{
                             display: 'flex', alignItems: 'center', gap: '0.875rem',
                             padding: '1rem 1.125rem',
                             background: '#F8FAFC', borderRadius: '0.875rem',
                             border: '1px solid #E2E8F0', transition: 'box-shadow 0.2s',
+                            gridColumn: 'span 1',
                         }}
                             onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 12px rgba(14,165,233,0.12)'}
                             onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
@@ -378,10 +381,10 @@ const UserProfile = ({ profile, onEdit }) => {
                                 {item.icon}
                             </div>
                             <div style={{ minWidth: 0 }}>
-                                <p style={{ fontSize: '0.7rem', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '2px' }}>
+                                <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '2px' }}>
                                     {item.label}
                                 </p>
-                                <p style={{ fontWeight: 600, color: '#1E293B', fontSize: '0.9rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                <p title={item.value} style={{ fontWeight: 600, color: '#1E293B', fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                     {item.value}
                                 </p>
                             </div>
@@ -404,6 +407,7 @@ const UserProfile = ({ profile, onEdit }) => {
                             background: m.cardBg, border: `1px solid ${m.border}`,
                             borderRadius: '1.125rem', padding: '1.5rem 1.25rem',
                             display: 'flex', flexDirection: 'column', gap: '0.875rem',
+                            alignItems: 'center', textAlign: 'center',
                             transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                         }}
                             onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = `0 12px 28px -8px ${m.iconBg}33`; }}
@@ -418,7 +422,7 @@ const UserProfile = ({ profile, onEdit }) => {
                                 {m.icon}
                             </div>
                             <div>
-                                <p style={{ fontSize: '0.75rem', fontWeight: 600, color: '#64748B', marginBottom: '4px' }}>{m.label}</p>
+                                <p style={{ fontSize: '0.85rem', fontWeight: 600, color: '#475569', marginBottom: '4px' }}>{m.label}</p>
                                 <p style={{ fontSize: '1.75rem', fontWeight: 800, color: m.color, lineHeight: 1 }}>{m.value}</p>
                             </div>
                         </div>
@@ -445,7 +449,7 @@ const UserProfile = ({ profile, onEdit }) => {
                         <Activity size={15} />
                         {profile.activityLevel || 'Not set'}
                     </span>
-                    <p style={{ color: '#94A3B8', fontSize: '0.875rem' }}>
+                    <p style={{ color: '#475569', fontSize: '0.95rem', fontWeight: 500 }}>
                         Used by your coach to tailor health &amp; exercise recommendations.
                     </p>
                 </div>
@@ -505,25 +509,28 @@ const EditForm = ({ profile, formData, setFormData, onSubmit, onCancel, saving }
                 <>
                     <div className="grid grid-cols-2">
                         <div className="form-group">
-                            <label className="form-label">Height (cm)</label>
+                            <label className="form-label">Age</label>
                             <input
                                 type="number"
                                 className="form-input"
-                                value={formData.height}
-                                onChange={e => setFormData({ ...formData, height: e.target.value })}
+                                value={formData.age}
+                                onChange={e => setFormData({ ...formData, age: e.target.value })}
                                 required
                             />
                         </div>
                         <div className="form-group">
-                            <label className="form-label">Weight (kg)</label>
-                            <input
-                                type="number"
-                                step="0.1"
+                            <label className="form-label">Gender</label>
+                            <select
                                 className="form-input"
-                                value={formData.weight}
-                                onChange={e => setFormData({ ...formData, weight: e.target.value })}
+                                value={formData.gender}
+                                onChange={e => setFormData({ ...formData, gender: e.target.value })}
                                 required
-                            />
+                            >
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
                     </div>
                     <div className="form-group">

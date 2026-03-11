@@ -12,6 +12,9 @@ A full-stack **MERN** application for health coaching, BMI tracking, daily strea
 | Backend    | Node JS + Express JS              |
 | Database   | MongoDB                           |
 | Auth       | JWT (JSON Web Token)              |
+| Styling    | Vanilla CSS + Inline Styles       |
+| Icons      | Lucide React                      |
+| Charts     | Chart.js + react-chartjs-2        |
 
 ---
 
@@ -30,7 +33,8 @@ A full-stack **MERN** application for health coaching, BMI tracking, daily strea
 - View all registered members and their profiles
 - Monitor each member's **health history** (weight, height, BMI, sleep, exercise)
 - Send **personalized advice** to individual members
-- Manage **training protocols** for members
+- Manage **training protocols** for different BMI categories
+- View coach profile with performance stats (clients managed, advice sent, protocols created)
 
 ### 📊 BMI Logic
 | Range        | Category    |
@@ -46,16 +50,19 @@ A full-stack **MERN** application for health coaching, BMI tracking, daily strea
 
 ```
 Wellness/
-├── client/          # React JS frontend (Vite)
+├── client/                    # React JS frontend (Vite)
 │   └── src/
-│       ├── pages/   # Dashboard, Progress, Profile, Login, Register, CoachDashboard
-│       ├── components/  # Navbar
-│       └── api/     # Axios instance
-├── server/          # Node JS + Express JS backend
-│   ├── controllers/ # healthRecordController, userController, coachController
-│   ├── models/      # User, HealthRecord, DietPlan, Advice
-│   ├── routes/      # auth, user, health-records, coach
-│   └── seed/        # seedData.js (diet plans)
+│       ├── pages/             # Dashboard, Progress, Profile, Login, CoachDashboard
+│       ├── components/        # Navbar
+│       ├── context/           # AuthContext
+│       └── api/               # Axios instance
+├── server/                    # Node JS + Express JS backend
+│   ├── controllers/           # healthRecordController, userController, coachController
+│   ├── models/                # User, HealthRecord, DietPlan, Advice
+│   ├── routes/                # auth, user, health-records, coach
+│   ├── scripts/               # dedupeHealthRecords.js (DB maintenance utility)
+│   ├── utils/                 # healthRecordUtils.js (shared helper functions)
+│   └── seed/                  # seedData.js (diet plans), seedCoach.js (coach account)
 └── package.json
 ```
 
@@ -127,3 +134,31 @@ npm run dev
 | `http://localhost:5173/progress` | Progress Tracking |
 | `http://localhost:5173/profile`  | Profile           |
 | `http://localhost:5173/coach`    | Coach Dashboard   |
+
+---
+
+## 🛠️ Utility Scripts
+
+### `server/scripts/dedupeHealthRecords.js`
+A one-time database maintenance script that removes duplicate health records for the same user on the same date, keeping the most complete record.
+
+```bash
+cd server
+node scripts/dedupeHealthRecords.js
+```
+
+### `server/utils/healthRecordUtils.js`
+Shared backend utility functions for consistent date key generation, day range lookup, and record deduplication logic used across controllers.
+
+---
+
+## 🎨 UI / UX Improvements (Latest Update)
+
+- **Increased font sizes** globally — base font bumped to `18–21px`, all section headings, labels, and body text scaled up for better readability
+- **Improved text contrast** — replaced near-invisible light grays (`#94A3B8`, `#64748B`) with darker, more accessible colors (`#475569`, `#334155`, `#1e293b`) across all pages
+- **Table headers** — column headings in Progress and Coach Dashboard now use larger, darker text
+- **Form labels** — all form field labels made bolder and more visible
+- **Gradient banners** — subheading text on hero banners changed from 75% to 92% white opacity for maximum legibility
+- **Navbar** — link text and logout button font sizes increased, inactive link color darkened
+- **Coach Dashboard** — client list, stats labels, and advice history text made larger and more readable
+- **Profile page** — detail card labels, stat labels, and activity description all improved

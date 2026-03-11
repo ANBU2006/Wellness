@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const healthRecordSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    // Calendar date key (UTC YYYY-MM-DD) used to prevent duplicate daily records.
+    dateKey: { type: String, index: true },
     weight: { type: Number, default: null },
     height: { type: Number, default: null },
     bmi: { type: Number, default: null },

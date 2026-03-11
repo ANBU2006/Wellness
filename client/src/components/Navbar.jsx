@@ -11,13 +11,13 @@ const Navbar = () => {
     const isActive = (path) => location.pathname === path;
 
     const navLinkStyle = (active) => ({
-        display: 'inline-flex', alignItems: 'center', gap: '6px',
-        padding: '0.45rem 0.875rem',
+        display: 'inline-flex', alignItems: 'center', gap: '7px',
+        padding: '0.5rem 0.95rem',
         borderRadius: '0.625rem',
-        fontWeight: 600, fontSize: '0.875rem',
+        fontWeight: 700, fontSize: '0.95rem',
         textDecoration: 'none',
         transition: 'all 0.18s ease',
-        color: active ? '#5B6CFF' : '#64748B',
+        color: active ? '#5B6CFF' : '#475569',
         background: active ? '#EEF2FF' : 'transparent',
     });
 
@@ -43,7 +43,7 @@ const Navbar = () => {
                 }}>
                     <Activity size={18} color="white" />
                 </div>
-                <span style={{ fontSize: '1.15rem', fontWeight: 800, background: 'linear-gradient(135deg, #5B6CFF, #7C3AED)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                <span style={{ fontSize: '1.25rem', fontWeight: 800, background: 'linear-gradient(135deg, #5B6CFF, #7C3AED)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                     WELLNESS<span style={{ WebkitTextFillColor: '#1E293B' }}>+</span>
                 </span>
             </Link>
@@ -73,12 +73,12 @@ const Navbar = () => {
             <button
                 onClick={handleLogout}
                 style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                    display: 'inline-flex', alignItems: 'center', gap: '7px',
                     background: '#FEF2F2', color: '#EF4444',
                     border: '1px solid #FECACA',
                     borderRadius: '0.625rem',
-                    padding: '0.4rem 0.875rem',
-                    fontSize: '0.875rem', fontWeight: 600,
+                    padding: '0.45rem 0.95rem',
+                    fontSize: '0.95rem', fontWeight: 700,
                     cursor: 'pointer', fontFamily: 'inherit',
                     transition: 'all 0.18s ease',
                 }}

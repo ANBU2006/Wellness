@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const HealthRecord = require('../models/HealthRecord');
 const User = require('../models/User');
+const { getDateKey, getDayRangeFromDateKey, dedupeRecordsByDate } = require('../utils/healthRecordUtils');
 
 const calculateBMI = (weight, height) => {
     const w = parseFloat(weight);
@@ -26,10 +27,54 @@ const calculateBMI = (weight, height) => {
 exports.addRecord = async (req, res) => {
     try {
         const { weight, height, date, sleepHours, exerciseMinutes } = req.body;
+        const effectiveDate = date || Date.now();
+        const dateKey = getDateKey(effectiveDate);
+        const dayRange = getDayRangeFromDateKey(dateKey);
+
+        // Upsert by (user, day): prevents duplicate daily entries.
+        let record = await HealthRecord.findOne({
+            userId: req.user.id,
+            $or: [
+                ...(dateKey ? [{ dateKey }] : []),
+                ...(dayRange ? [{ date: { $gte: dayRange.start, $lte: dayRange.end } }] : [])
+            ]
+        }).sort({ updatedAt: -1, createdAt: -1 });
+
+        if (record) {
+            const w = parseFloat(weight);
+            const h = parseFloat(height);
+
+            if (!isNaN(w) && !isNaN(h) && h > 0) {
+                record.weight = w;
+                record.height = h;
+                const { bmi, category } = calculateBMI(w, h);
+                if (bmi !== null && !isNaN(bmi)) {
+                    record.bmi = bmi;
+                    record.category = category;
+                }
+            }
+
+            if (date) record.date = date;
+            if (dateKey) record.dateKey = dateKey;
+
+            if (sleepHours !== undefined) {
+                const sh = parseFloat(sleepHours);
+                if (!isNaN(sh)) record.sleepHours = sh;
+            }
+
+            if (exerciseMinutes !== undefined) {
+                const em = parseFloat(exerciseMinutes);
+                if (!isNaN(em)) record.exerciseMinutes = em;
+            }
+
+            await record.save();
+            return res.json(record);
+        }
 
         const recordData = {
             userId: req.user.id,
-            date: date || Date.now(),
+            date: effectiveDate,
+            dateKey,
             sleepHours: parseFloat(sleepHours) || 0,
             exerciseMinutes: parseFloat(exerciseMinutes) || 0,
             weight: null,
@@ -51,9 +96,9 @@ exports.addRecord = async (req, res) => {
             }
         }
 
-        const record = new HealthRecord(recordData);
-        await record.save();
-        res.status(201).json(record);
+        const newRecord = new HealthRecord(recordData);
+        await newRecord.save();
+        res.status(201).json(newRecord);
     } catch (err) {
         console.error('Add Record Error:', err);
         res.status(500).json({ message: err.message });
@@ -64,7 +109,8 @@ exports.getUserRecords = async (req, res) => {
     try {
         const userId = req.params.userId || req.user.id;
         const records = await HealthRecord.find({ userId }).sort({ date: -1 });
-        res.json(records);
+        const deduped = dedupeRecordsByDate(records).slice().reverse();
+        res.json(deduped);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -98,7 +144,11 @@ exports.updateRecord = async (req, res) => {
             // (Though in this app weight/height are usually updated together)
         }
 
-        if (date) record.date = date;
+        if (date) {
+            record.date = date;
+            const dateKey = getDateKey(date);
+            if (dateKey) record.dateKey = dateKey;
+        }
 
         if (sleepHours !== undefined) {
             const sh = parseFloat(sleepHours);

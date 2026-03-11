@@ -180,8 +180,8 @@ const CoachDashboard = () => {
         <div className="main-content">
             <header style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                    <h1 style={{ fontSize: '1.875rem', fontWeight: 800 }}>Coach Command Center</h1>
-                    <p style={{ color: 'var(--text-muted)' }}>Monitor users and manage health protocols.</p>
+                    <h1 style={{ fontSize: '2rem', fontWeight: 800 }}>Coach Command Center</h1>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '1rem', fontWeight: 500 }}>Monitor users and manage health protocols.</p>
                 </div>
                 <div style={{ display: 'flex', gap: '1rem' }}>
                     <button onClick={() => setView('users')} className={`btn ${view === 'users' ? 'btn-primary' : ''}`} style={{ width: 'auto' }}>
@@ -218,8 +218,8 @@ const CoachDashboard = () => {
                                     }}
                                 >
                                     <div>
-                                        <p style={{ fontWeight: 600 }}>{u.name}</p>
-                                        <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>{u.email}</p>
+                                        <p style={{ fontWeight: 700, fontSize: '1rem' }}>{u.name}</p>
+                                        <p style={{ fontSize: '0.875rem', color: '#475569', fontWeight: 500 }}>{u.email}</p>
                                     </div>
                                     <ChevronRight size={18} color="var(--text-muted)" />
                                 </div>
@@ -234,11 +234,11 @@ const CoachDashboard = () => {
                                 <div className="card">
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1.5rem' }}>
                                         <div>
-                                            <h2 style={{ fontSize: '1.5rem', fontWeight: 700 }}>{selectedUser.user.name}</h2>
-                                            <p style={{ color: 'var(--text-muted)' }}>{selectedUser.user.age} yrs | {selectedUser.user.gender} | {selectedUser.user.activityLevel}</p>
+                                            <h2 style={{ fontSize: '1.625rem', fontWeight: 700 }}>{selectedUser.user.name}</h2>
+                                            <p style={{ color: '#475569', fontWeight: 500 }}>{selectedUser.user.age} yrs | {selectedUser.user.gender} | {selectedUser.user.activityLevel}</p>
                                         </div>
                                         <div style={{ textAlign: 'right' }}>
-                                            <p style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)' }}>LATEST BMI</p>
+                                            <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#475569' }}>LATEST BMI</p>
                                             <p style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)' }}>
                                                 {selectedUser.history[selectedUser.history.length - 1]?.bmi || 'N/A'}
                                             </p>
@@ -254,8 +254,8 @@ const CoachDashboard = () => {
                                                 <Moon size={20} />
                                             </div>
                                             <div>
-                                                <p style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)' }}>AVG SLEEP</p>
-                                                <p style={{ fontWeight: 700 }}>{selectedUser.history.length > 0 ? (selectedUser.history.reduce((acc, curr) => acc + (curr.sleepHours || 0), 0) / selectedUser.history.length).toFixed(1) : 0} hrs</p>
+                                                <p style={{ fontSize: '0.82rem', fontWeight: 700, color: '#475569' }}>AVG SLEEP</p>
+                                                <p style={{ fontWeight: 700, fontSize: '1rem' }}>{selectedUser.history.length > 0 ? (selectedUser.history.reduce((acc, curr) => acc + (curr.sleepHours || 0), 0) / selectedUser.history.length).toFixed(1) : 0} hrs</p>
                                             </div>
                                         </div>
                                         <div style={{ padding: '1rem', background: '#f8fafc', borderRadius: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -263,8 +263,8 @@ const CoachDashboard = () => {
                                                 <Zap size={20} />
                                             </div>
                                             <div>
-                                                <p style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)' }}>AVG EXERCISE</p>
-                                                <p style={{ fontWeight: 700 }}>{selectedUser.history.length > 0 ? (selectedUser.history.reduce((acc, curr) => acc + (curr.exerciseMinutes || 0), 0) / selectedUser.history.length).toFixed(0) : 0} min</p>
+                                                <p style={{ fontSize: '0.82rem', fontWeight: 700, color: '#475569' }}>AVG EXERCISE</p>
+                                                <p style={{ fontWeight: 700, fontSize: '1rem' }}>{selectedUser.history.length > 0 ? (selectedUser.history.reduce((acc, curr) => acc + (curr.exerciseMinutes || 0), 0) / selectedUser.history.length).toFixed(0) : 0} min</p>
                                             </div>
                                         </div>
                                     </div>
@@ -296,14 +296,14 @@ const CoachDashboard = () => {
                                         </form>
 
                                         <div style={{ marginTop: '2rem' }}>
-                                            <h4 style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: '1rem' }}>ADVICE HISTORY</h4>
+                                            <h4 style={{ fontSize: '0.875rem', fontWeight: 700, color: '#475569', marginBottom: '1rem' }}>ADVICE HISTORY</h4>
                                             {selectedUser.adviceHistory?.length > 0 ? (
                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                                                     {selectedUser.adviceHistory.slice().reverse().map((adv) => (
                                                         <div key={adv._id} style={{ padding: '0.75rem', background: '#f8fafc', borderRadius: '0.5rem', borderLeft: '3px solid var(--primary)', display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                                                             <div>
-                                                                <p style={{ fontSize: '0.875rem' }}>{adv.content}</p>
-                                                                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>{new Date(adv.date).toLocaleDateString()}</p>
+                                                                <p style={{ fontSize: '0.95rem', color: '#1e293b', fontWeight: 500 }}>{adv.content}</p>
+                                                                <p style={{ fontSize: '0.82rem', color: '#475569', marginTop: '0.25rem', fontWeight: 500 }}>{new Date(adv.date).toLocaleDateString()}</p>
                                                             </div>
                                                             <div style={{ display: 'flex', gap: '0.25rem' }}>
                                                                 <button onClick={() => handleEditAdvice(adv)} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer' }}><Edit size={14} /></button>
@@ -356,8 +356,8 @@ const CoachDashboard = () => {
                                                         <th key={i} style={{
                                                             padding: '0.75rem 1rem',
                                                             textAlign: 'left',
-                                                            fontSize: '0.7rem', fontWeight: 700,
-                                                            color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.06em',
+                                                            fontSize: '0.8rem', fontWeight: 700,
+                                                            color: '#475569', textTransform: 'uppercase', letterSpacing: '0.06em',
                                                             borderBottom: '1px solid #E2E8F0',
                                                             whiteSpace: 'pre', lineHeight: 1.4,
                                                             overflow: 'hidden',

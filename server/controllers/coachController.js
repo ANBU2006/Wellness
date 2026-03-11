@@ -2,6 +2,7 @@ const User = require('../models/User');
 const HealthRecord = require('../models/HealthRecord');
 const Advice = require('../models/Advice');
 const DietPlan = require('../models/DietPlan');
+const { dedupeRecordsByDate } = require('../utils/healthRecordUtils');
 
 exports.getAllUsers = async (req, res) => {
     try {
@@ -16,7 +17,8 @@ exports.getUserDetails = async (req, res) => {
     try {
         const userId = req.params.id;
         const user = await User.findById(userId).select('-password');
-        const history = await HealthRecord.find({ userId }).sort({ date: 1 });
+        const historyRaw = await HealthRecord.find({ userId }).sort({ date: 1 });
+        const history = dedupeRecordsByDate(historyRaw);
         const adviceHistory = await Advice.find({ userId }).sort({ date: -1 });
 
         res.json({ user, history, adviceHistory });

@@ -81,7 +81,7 @@ const Login = ({ defaultIsLogin = true }) => {
                     <h1 style={{ fontSize: '1.625rem', fontWeight: 800, color: '#1E293B', marginBottom: '0.375rem' }}>
                         {isLogin ? 'Welcome back' : 'Create account'}
                     </h1>
-                    <p style={{ color: '#94A3B8', fontSize: '0.9rem' }}>
+                    <p style={{ color: '#475569', fontSize: '1rem', fontWeight: 500 }}>
                         {isLogin ? 'Log in to your wellness journey' : 'Start your health transformation today'}
                     </p>
                 </div>
@@ -200,7 +200,7 @@ const Login = ({ defaultIsLogin = true }) => {
                 </form>
 
                 {/* Switch mode */}
-                <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.875rem', color: '#94A3B8' }}>
+                <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.95rem', color: '#475569', fontWeight: 500 }}>
                     {isLogin ? "Don't have an account? " : "Already have an account? "}
                     <span onClick={() => setIsLogin(!isLogin)} style={{ color: '#5B6CFF', fontWeight: 700, cursor: 'pointer' }}>
                         {isLogin ? 'Register now' : 'Log in'}

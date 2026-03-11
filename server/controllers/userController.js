@@ -2,6 +2,7 @@ const User = require('../models/User');
 const HealthRecord = require('../models/HealthRecord');
 const DietPlan = require('../models/DietPlan');
 const Advice = require('../models/Advice');
+const { dedupeRecordsByDate, getDateKey, getDayRangeFromDateKey } = require('../utils/healthRecordUtils');
 
 const calculateBMI = (weight, height) => {
     if (!weight || !height || height <= 0) return { bmi: null, category: '' };
@@ -16,6 +17,38 @@ const calculateBMI = (weight, height) => {
     else category = 'Obese';
 
     return { bmi: roundedBMI, category };
+};
+
+const upsertDailyHealthRecord = async (userId, { weight, height, bmi, category }) => {
+    const dateKey = getDateKey(new Date());
+    const dayRange = getDayRangeFromDateKey(dateKey);
+    let record = await HealthRecord.findOne({
+        userId,
+        $or: [
+            ...(dateKey ? [{ dateKey }] : []),
+            ...(dayRange ? [{ date: { $gte: dayRange.start, $lte: dayRange.end } }] : [])
+        ]
+    }).sort({ updatedAt: -1, createdAt: -1 });
+
+    if (!record) {
+        record = new HealthRecord({
+            userId,
+            weight,
+            height,
+            bmi,
+            category,
+            dateKey
+        });
+    } else {
+        record.weight = weight;
+        record.height = height;
+        record.bmi = bmi;
+        record.category = category;
+        if (dateKey) record.dateKey = dateKey;
+    }
+
+    await record.save();
+    return record;
 };
 
 exports.getProfile = async (req, res) => {
@@ -61,14 +94,12 @@ exports.updateProfile = async (req, res) => {
                     user.weight = w;
                     const { bmi, category } = calculateBMI(w, h);
 
-                    const record = new HealthRecord({
-                        userId: user._id,
+                    await upsertDailyHealthRecord(user._id, {
                         weight: w,
                         height: h,
                         bmi,
                         category
                     });
-                    await record.save();
                 }
             }
         }
@@ -93,14 +124,12 @@ exports.updateHealthData = async (req, res) => {
 
         const { bmi, category } = calculateBMI(user.weight, user.height);
 
-        const record = new HealthRecord({
-            userId: user._id,
+        const record = await upsertDailyHealthRecord(user._id, {
             weight: user.weight,
             height: user.height,
             bmi,
             category
         });
-        await record.save();
 
         res.json({ message: 'Health data updated', record });
     } catch (err) {
@@ -111,7 +140,8 @@ exports.updateHealthData = async (req, res) => {
 exports.getDashboardData = async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
-        const history = await HealthRecord.find({ userId: req.user.id }).sort({ date: 1 });
+        const historyRaw = await HealthRecord.find({ userId: req.user.id }).sort({ date: 1 });
+        const history = dedupeRecordsByDate(historyRaw);
 
         // Default to profile data
         let currentBMI = 0;
