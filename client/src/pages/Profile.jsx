@@ -202,7 +202,7 @@ const CoachProfile = ({ profile, onEdit }) => {
                     Performance Stats
                 </h2>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '1.125rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.125rem' }}>
                     {statCards.map((stat, i) => (
                         <div key={i} style={{
                             background: stat.bg,

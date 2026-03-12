@@ -197,8 +197,7 @@ const Progress = () => {
 
     const cancelEdit = () => {
         setEditingId(null);
-        setPhysicalForm({ ...physicalForm, weight: '', exerciseMinutes: '', date: getTodayDate() });
-        setSleepForm({ ...sleepForm, sleepHours: '', date: getYesterdayDate() });
+        setHealthForm({ ...healthForm, weight: '', exerciseMinutes: '', sleepHours: '', date: getTodayDate() });
     };
 
     // Chart logic

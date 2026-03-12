@@ -43,10 +43,10 @@ export const AuthProvider = ({ children }) => {
         return { role: decoded.role };
     };
 
-    const logout = () => {
+    function logout() {
         localStorage.removeItem('token');
         setUser(null);
-    };
+    }
 
     return (
         <AuthContext.Provider value={{ user, loading, login, register, logout }}>
