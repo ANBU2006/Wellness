@@ -39,7 +39,7 @@ const CoachProfile = ({ profile, onEdit }) => {
         },
         {
             icon: <Send size={22} />,
-            label: 'Advice Sent',
+            label: <>Advice<br />Sent</>,
             value: stats?.adviceSent,
             bg: '#F0FDF4',
             iconBg: '#22C55E',
