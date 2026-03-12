@@ -200,8 +200,9 @@ const Progress = () => {
         setHealthForm({ ...healthForm, weight: '', exerciseMinutes: '', sleepHours: '', date: getTodayDate() });
     };
 
-    // Chart logic
-    const labels = history.map(h => new Date(h.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
+    // Chart logic (Limit to last 30 days to prevent crowding)
+    const recentHistory = history.slice(-30);
+    const labels = recentHistory.map(h => new Date(h.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
 
     const getBMIColor = (category) => {
         switch (category) {
@@ -224,7 +225,7 @@ const Progress = () => {
         labels,
         datasets: [{
             label: 'Weight (kg)',
-            data: history.map(h => h.weight || null),
+            data: recentHistory.map(h => h.weight || null),
             borderColor: '#3B82F6',
             backgroundColor: (context) => context.chart.chartArea ? createGradient(context.chart.ctx, '#3B82F6') : null,
             pointBackgroundColor: '#3B82F6',
@@ -238,7 +239,7 @@ const Progress = () => {
         labels,
         datasets: [{
             label: 'Sleep (hrs)',
-            data: history.map(h => h.sleepHours || null),
+            data: recentHistory.map(h => h.sleepHours || null),
             borderColor: '#6366F1',
             backgroundColor: (context) => context.chart.chartArea ? createGradient(context.chart.ctx, '#6366F1') : null,
             fill: true,
@@ -251,13 +252,13 @@ const Progress = () => {
         labels,
         datasets: [{
             label: 'BMI Value',
-            data: history.map(h => h.bmi || null),
+            data: recentHistory.map(h => h.bmi || null),
             borderColor: '#8B5CF6',
             backgroundColor: (context) => context.chart.chartArea ? createGradient(context.chart.ctx, '#8B5CF6') : null,
             fill: true,
             tension: 0.4,
-            pointBackgroundColor: history.map(h => getBMIColor(h.category)),
-            pointBorderColor: history.map(h => getBMIColor(h.category)),
+            pointBackgroundColor: recentHistory.map(h => getBMIColor(h.category)),
+            pointBorderColor: recentHistory.map(h => getBMIColor(h.category)),
             spanGaps: true
         }]
     };
@@ -299,7 +300,7 @@ const Progress = () => {
                 ...commonOptions('BMI Analysis', 'Score').plugins.tooltip,
                 callbacks: {
                     label: (context) => {
-                        const h = history[context.dataIndex];
+                        const h = recentHistory[context.dataIndex];
                         return `BMI: ${context.parsed.y} (${h.category || 'N/A'})`;
                     }
                 }
@@ -555,7 +556,7 @@ const Progress = () => {
                             labels,
                             datasets: [{
                                 label: 'Exercise (min)',
-                                data: history.map(h => h.exerciseMinutes || null),
+                                data: recentHistory.map(h => h.exerciseMinutes || null),
                                 borderColor: '#10B981',
                                 backgroundColor: (context) => context.chart.chartArea ? createGradient(context.chart.ctx, '#10B981') : null,
                                 pointBackgroundColor: '#10B981',
