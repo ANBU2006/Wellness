@@ -629,7 +629,7 @@ const Progress = () => {
                                         onMouseEnter={e => e.currentTarget.style.background = '#FAFBFF'}
                                         onMouseLeave={e => e.currentTarget.style.background = 'white'}
                                     >
-                                        <td style={{ padding: '0.875rem 1rem', fontWeight: 600, fontSize: '0.95rem' }}>
+                                        <td style={{ padding: '0.875rem 1rem', fontWeight: 600, fontSize: '0.95rem', whiteSpace: 'nowrap' }}>
                                             {new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                         </td>
                                         <td style={{ padding: '0.875rem 1rem', color: '#1e293b', fontWeight: 500 }}>{h.weight ? `${h.weight} kg` : <span style={{ color: '#CBD5E1' }}>—</span>}</td>

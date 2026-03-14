@@ -381,7 +381,7 @@ const CoachDashboard = () => {
                                                             onMouseEnter={e => e.currentTarget.style.background = '#FAFBFF'}
                                                             onMouseLeave={e => e.currentTarget.style.background = 'white'}
                                                         >
-                                                            <td style={{ padding: '0.75rem 1rem', fontWeight: 600, fontSize: '0.875rem' }}>
+                                                            <td style={{ padding: '0.75rem 1rem', fontWeight: 600, fontSize: '0.875rem', whiteSpace: 'nowrap' }}>
                                                                 {new Date(h.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                                             </td>
                                                             <td style={{ padding: '0.75rem 1rem', color: '#334155', fontSize: '0.875rem' }}>
