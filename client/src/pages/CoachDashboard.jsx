@@ -345,17 +345,17 @@ const CoachDashboard = () => {
                                             <thead>
                                                 <tr style={{ background: '#F8FAFC' }}>
                                                     {[
-                                                        { label: 'Date' },
-                                                        { label: 'Weight' },
-                                                        { label: 'Height' },
-                                                        { label: 'BMI' },
-                                                        { label: 'Category' },
-                                                        { label: 'Sleep\n(LN)' },
-                                                        { label: 'Exercise' },
+                                                        { label: 'Date', align: 'left' },
+                                                        { label: 'Weight', align: 'left' },
+                                                        { label: 'Height', align: 'left' },
+                                                        { label: 'BMI', align: 'left' },
+                                                        { label: 'Category', align: 'left' },
+                                                        { label: 'Sleep\n(Last Night)', align: 'center' },
+                                                        { label: 'Exercise', align: 'left' },
                                                     ].map((col, i) => (
                                                         <th key={i} style={{
                                                             padding: '0.75rem 1rem',
-                                                            textAlign: 'left',
+                                                            textAlign: col.align,
                                                             fontSize: '0.8rem', fontWeight: 700,
                                                             color: '#475569', textTransform: 'uppercase', letterSpacing: '0.06em',
                                                             borderBottom: '1px solid #E2E8F0',
@@ -400,7 +400,7 @@ const CoachDashboard = () => {
                                                                     </span>
                                                                 ) : <span style={{ color: '#CBD5E1' }}>—</span>}
                                                             </td>
-                                                            <td style={{ padding: '0.75rem 1rem', color: '#334155', fontSize: '0.875rem' }}>
+                                                            <td style={{ padding: '0.75rem 1rem', color: '#334155', fontSize: '0.875rem', textAlign: 'center' }}>
                                                                 {h.sleepHours ? `${h.sleepHours} hrs` : <span style={{ color: '#CBD5E1' }}>—</span>}
                                                             </td>
                                                             <td style={{ padding: '0.75rem 1rem', color: '#334155', fontSize: '0.875rem' }}>
