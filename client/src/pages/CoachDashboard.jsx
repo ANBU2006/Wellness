@@ -334,12 +334,12 @@ const CoachDashboard = () => {
                                     <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
                                         <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
                                             <colgroup>
-                                                <col style={{ width: '18%' }} /> {/* Date */}
+                                                <col style={{ width: '16%' }} /> {/* Date */}
                                                 <col style={{ width: '12%' }} /> {/* Weight */}
                                                 <col style={{ width: '12%' }} /> {/* Height */}
                                                 <col style={{ width: '10%' }} /> {/* BMI */}
                                                 <col style={{ width: '16%' }} /> {/* Category */}
-                                                <col style={{ width: '16%' }} /> {/* Sleep */}
+                                                <col style={{ width: '18%' }} /> {/* Sleep */}
                                                 <col style={{ width: '16%' }} /> {/* Exercise */}
                                             </colgroup>
                                             <thead>
