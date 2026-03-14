@@ -350,7 +350,7 @@ const CoachDashboard = () => {
                                                         { label: 'Height' },
                                                         { label: 'BMI' },
                                                         { label: 'Category' },
-                                                        { label: 'Sleep\n(Last Night)' },
+                                                        { label: 'Sleep\n(LN)' },
                                                         { label: 'Exercise' },
                                                     ].map((col, i) => (
                                                         <th key={i} style={{

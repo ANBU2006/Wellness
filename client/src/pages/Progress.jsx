@@ -602,7 +602,7 @@ const Progress = () => {
                                     { label: 'Height', align: 'left' },
                                     { label: 'BMI', align: 'left' },
                                     { label: 'Category', align: 'left' },
-                                    { label: 'Sleep\n(Last Night)', align: 'center' },
+                                    { label: 'Sleep\n(LN)', align: 'center' },
                                     { label: 'Exercise', align: 'left' },
                                     { label: 'Actions', align: 'right' },
                                 ].map((col, i) => (
