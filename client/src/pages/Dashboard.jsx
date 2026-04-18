@@ -49,7 +49,6 @@ const Dashboard = () => {
     };
     const bmiTheme = bmiColors[category] || { bg: '#F8FAFC', color: '#475569', border: '#E2E8F0' };
 
-    // ── Streak calculation ──
     const calcStreak = (historyArr) => {
         if (!historyArr || historyArr.length === 0) return 0;
         const today = new Date();
@@ -75,15 +74,6 @@ const Dashboard = () => {
     };
 
     const streak = calcStreak(history || []);
-    const streakEmoji = streak >= 30 ? '🏆' : streak >= 14 ? '🔥' : streak >= 7 ? '⚡' : streak >= 3 ? '✨' : '📅';
-    const streakMsg = streak >= 30 ? 'Incredible! Month-long streak!' : streak >= 14 ? 'Two weeks strong!' : streak >= 7 ? 'One week streak!' : streak >= 3 ? 'Great consistency!' : streak === 1 ? 'Streak started — keep going!' : 'Log today to start your streak!';
-
-    const bmiRanges = [
-        { label: 'Underweight', range: '< 18.5', color: '#1D4ED8', bg: '#DBEAFE' },
-        { label: 'Normal', range: '18.5 – 24.9', color: '#15803D', bg: '#DCFCE7' },
-        { label: 'Overweight', range: '25 – 29.9', color: '#B45309', bg: '#FEF3C7' },
-        { label: 'Obese', range: '≥ 30', color: '#B91C1C', bg: '#FEE2E2' },
-    ];
 
     return (
         <div className="main-content">
@@ -115,9 +105,7 @@ const Dashboard = () => {
                     borderRadius: '1.25rem', padding: '1.25rem',
                     boxShadow: '0 4px 16px rgba(0,0,0,0.04)',
                     display: 'flex', flexDirection: 'column', gap: '0.5rem',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
+                    alignItems: 'center', justifyContent: 'center', textAlign: 'center',
                 }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '0.25rem', width: '100%' }}>
                         <div style={{ width: '36px', height: '36px', borderRadius: '0.625rem', background: bmiTheme.color + '22', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -223,160 +211,130 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* ── Coach Advice History ── */}
-            <div className="card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
-                {/* Header row */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ display: 'inline-flex', padding: '6px', background: '#FDF4FF', borderRadius: '8px', color: '#A855F7' }}>
-                            <History size={16} />
-                        </span>
-                        <h2 style={{ fontSize: '1.15rem', fontWeight: 700 }}>Coach Advice History</h2>
-                        {adviceHistory.length > 0 && (
-                            <span style={{
-                                padding: '2px 10px', borderRadius: '9999px',
-                                background: '#EEF2FF', color: '#5B6CFF',
-                                fontSize: '0.78rem', fontWeight: 700,
-                            }}>{adviceHistory.length}</span>
-                        )}
+            {/* ── Coach Advice History CTA + Expandable Timeline ── */}
+            <div style={{ borderRadius: '1.25rem', overflow: 'hidden', border: '1.5px solid #E2E8F0' }}>
+                {/* CTA Banner */}
+                <div style={{
+                    background: 'linear-gradient(135deg, #EEF2FF 0%, #FDF4FF 100%)',
+                    padding: '1.75rem 2rem',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap',
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+                        <div style={{
+                            width: '52px', height: '52px', borderRadius: '0.875rem',
+                            background: 'linear-gradient(135deg, #A855F7 0%, #7C3AED 100%)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            boxShadow: '0 6px 16px rgba(168,85,247,0.35)', flexShrink: 0,
+                        }}>
+                            <History size={24} color="white" />
+                        </div>
+                        <div>
+                            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '4px', color: '#1E293B' }}>
+                                Coach Advice History
+                            </h2>
+                            <p style={{ color: '#475569', fontSize: '0.95rem', fontWeight: 500 }}>
+                                {adviceHistory.length > 0
+                                    ? `${adviceHistory.length} advice message${adviceHistory.length > 1 ? 's' : ''} from your coach`
+                                    : 'No advice received yet from your coach'}
+                            </p>
+                        </div>
                     </div>
-                    {adviceHistory.length > 3 && (
-                        <button
-                            onClick={() => setHistoryExpanded(!historyExpanded)}
-                            style={{
-                                display: 'inline-flex', alignItems: 'center', gap: '4px',
-                                background: 'none', border: '1.5px solid #E2E8F0',
-                                borderRadius: '0.625rem', padding: '0.4rem 0.875rem',
-                                fontWeight: 600, fontSize: '0.85rem', color: '#475569',
-                                cursor: 'pointer', fontFamily: 'inherit',
-                                transition: 'all 0.2s',
-                            }}
-                            onMouseEnter={e => { e.currentTarget.style.borderColor = '#5B6CFF'; e.currentTarget.style.color = '#5B6CFF'; }}
-                            onMouseLeave={e => { e.currentTarget.style.borderColor = '#E2E8F0'; e.currentTarget.style.color = '#475569'; }}
-                        >
-                            {historyExpanded ? 'Show Less' : `View All ${adviceHistory.length}`}
-                            <ChevronRight size={14} style={{ transform: historyExpanded ? 'rotate(270deg)' : 'rotate(90deg)', transition: 'transform 0.2s' }} />
-                        </button>
-                    )}
+                    <button
+                        onClick={() => setHistoryExpanded(!historyExpanded)}
+                        style={{
+                            display: 'inline-flex', alignItems: 'center', gap: '6px',
+                            background: 'linear-gradient(135deg, #A855F7 0%, #7C3AED 100%)',
+                            color: 'white', border: 'none', borderRadius: '0.875rem',
+                            padding: '0.75rem 1.5rem', fontWeight: 700, fontSize: '1rem',
+                            fontFamily: 'inherit', cursor: 'pointer',
+                            boxShadow: '0 6px 18px rgba(168,85,247,0.4)',
+                            transition: 'all 0.2s ease',
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 28px rgba(168,85,247,0.5)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(168,85,247,0.4)'; }}
+                    >
+                        {historyExpanded ? 'Hide History' : 'View Coach Advice History'}
+                        <ChevronRight size={16} style={{ transform: historyExpanded ? 'rotate(270deg)' : 'rotate(90deg)', transition: 'transform 0.3s' }} />
+                    </button>
                 </div>
 
-                {adviceHistory.length === 0 ? (
-                    <div style={{
-                        display: 'flex', flexDirection: 'column', alignItems: 'center',
-                        padding: '2rem', background: '#F8FAFC', borderRadius: '1rem', gap: '0.75rem',
-                    }}>
-                        <div style={{ width: '48px', height: '48px', borderRadius: '0.875rem', background: '#FDF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <History size={22} color="#A855F7" />
-                        </div>
-                        <p style={{ color: '#94A3B8', fontWeight: 500, fontSize: '0.95rem', textAlign: 'center' }}>No advice history yet. Your coach will send advice soon.</p>
-                    </div>
-                ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem', position: 'relative' }}>
-                        {/* Vertical timeline line */}
-                        <div style={{
-                            position: 'absolute', left: '19px', top: '28px',
-                            bottom: '28px', width: '2px',
-                            background: 'linear-gradient(180deg, #5B6CFF33, #A855F733)',
-                            borderRadius: '1px',
-                        }} />
-
-                        {(historyExpanded ? adviceHistory : adviceHistory.slice(0, 3)).map((item, idx) => (
-                            <div key={item._id || idx} style={{
-                                display: 'flex', alignItems: 'flex-start', gap: '1rem',
-                                opacity: 1, animation: 'fadeIn 0.3s ease',
+                {/* Expandable History Panel */}
+                {historyExpanded && (
+                    <div style={{ background: 'white', padding: '1.75rem 2rem', borderTop: '1.5px solid #E2E8F0' }}>
+                        {adviceHistory.length === 0 ? (
+                            <div style={{
+                                display: 'flex', flexDirection: 'column', alignItems: 'center',
+                                padding: '2rem', background: '#F8FAFC', borderRadius: '1rem', gap: '0.75rem',
                             }}>
-                                {/* Timeline dot */}
-                                <div style={{
-                                    flexShrink: 0,
-                                    width: '38px', height: '38px',
-                                    borderRadius: '50%',
-                                    background: idx === 0
-                                        ? 'linear-gradient(135deg, #5B6CFF 0%, #7C3AED 100%)'
-                                        : '#EEF2FF',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    boxShadow: idx === 0 ? '0 4px 12px rgba(91,108,255,0.35)' : 'none',
-                                    zIndex: 1,
-                                }}>
-                                    <User size={16} color={idx === 0 ? 'white' : '#5B6CFF'} />
+                                <div style={{ width: '48px', height: '48px', borderRadius: '0.875rem', background: '#FDF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <History size={22} color="#A855F7" />
                                 </div>
-
-                                {/* Advice bubble */}
+                                <p style={{ color: '#94A3B8', fontWeight: 500, fontSize: '0.95rem', textAlign: 'center' }}>
+                                    No advice history yet. Your coach will send advice soon.
+                                </p>
+                            </div>
+                        ) : (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem', position: 'relative' }}>
+                                {/* Vertical timeline line */}
                                 <div style={{
-                                    flex: 1,
-                                    background: idx === 0
-                                        ? 'linear-gradient(135deg, rgba(91,108,255,0.06), rgba(124,58,237,0.06))'
-                                        : '#F8FAFC',
-                                    border: idx === 0 ? '1.5px solid rgba(91,108,255,0.2)' : '1.5px solid #E2E8F0',
-                                    borderRadius: '1rem',
-                                    padding: '1rem 1.25rem',
-                                }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                            <span style={{ fontWeight: 700, fontSize: '0.9rem', color: '#1E293B' }}>
-                                                Coach {item.coachId?.name || 'Unknown'}
-                                            </span>
-                                            {idx === 0 && (
-                                                <span style={{
-                                                    padding: '1px 8px', borderRadius: '9999px',
-                                                    background: 'linear-gradient(135deg, #5B6CFF, #7C3AED)',
-                                                    color: 'white', fontSize: '0.7rem', fontWeight: 700,
-                                                }}>Latest</span>
-                                            )}
+                                    position: 'absolute', left: '19px', top: '28px',
+                                    bottom: '28px', width: '2px',
+                                    background: 'linear-gradient(180deg, #A855F733, #7C3AED33)',
+                                    borderRadius: '1px',
+                                }} />
+                                {adviceHistory.map((item, idx) => (
+                                    <div key={item._id || idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+                                        {/* Timeline dot */}
+                                        <div style={{
+                                            flexShrink: 0, width: '38px', height: '38px', borderRadius: '50%',
+                                            background: idx === 0
+                                                ? 'linear-gradient(135deg, #A855F7 0%, #7C3AED 100%)'
+                                                : '#F3E8FF',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            boxShadow: idx === 0 ? '0 4px 12px rgba(168,85,247,0.35)' : 'none',
+                                            zIndex: 1,
+                                        }}>
+                                            <User size={16} color={idx === 0 ? 'white' : '#A855F7'} />
                                         </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#94A3B8', fontSize: '0.78rem', fontWeight: 500 }}>
-                                            <Clock size={12} />
-                                            {new Date(item.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                        {/* Advice bubble */}
+                                        <div style={{
+                                            flex: 1,
+                                            background: idx === 0
+                                                ? 'linear-gradient(135deg, rgba(168,85,247,0.06), rgba(124,58,237,0.06))'
+                                                : '#F8FAFC',
+                                            border: idx === 0
+                                                ? '1.5px solid rgba(168,85,247,0.25)'
+                                                : '1.5px solid #E2E8F0',
+                                            borderRadius: '1rem', padding: '1rem 1.25rem',
+                                        }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                    <span style={{ fontWeight: 700, fontSize: '0.9rem', color: '#1E293B' }}>
+                                                        Coach {item.coachId?.name || 'Unknown'}
+                                                    </span>
+                                                    {idx === 0 && (
+                                                        <span style={{
+                                                            padding: '1px 8px', borderRadius: '9999px',
+                                                            background: 'linear-gradient(135deg, #A855F7, #7C3AED)',
+                                                            color: 'white', fontSize: '0.7rem', fontWeight: 700,
+                                                        }}>Latest</span>
+                                                    )}
+                                                </div>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#94A3B8', fontSize: '0.78rem', fontWeight: 500 }}>
+                                                    <Clock size={12} />
+                                                    {new Date(item.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                                </div>
+                                            </div>
+                                            <p style={{ fontStyle: 'italic', color: '#334155', lineHeight: 1.65, fontSize: '0.95rem' }}>
+                                                "{item.content}"
+                                            </p>
                                         </div>
                                     </div>
-                                    <p style={{
-                                        fontStyle: 'italic', color: '#334155',
-                                        lineHeight: 1.65, fontSize: '0.95rem',
-                                    }}>"{item.content}"</p>
-                                </div>
+                                ))}
                             </div>
-                        ))}
-
-                        {!historyExpanded && adviceHistory.length > 3 && (
-                            <p style={{ textAlign: 'center', color: '#94A3B8', fontSize: '0.85rem', marginTop: '0.25rem' }}>
-                                + {adviceHistory.length - 3} more advice entries
-                            </p>
                         )}
                     </div>
                 )}
-            </div>
-
-            {/* ── CTA: Track Progress ── */}
-            <div style={{
-                background: 'linear-gradient(135deg, #F0FDF4 0%, #EEF2FF 100%)',
-                border: '1.5px solid #E2E8F0',
-                borderRadius: '1.25rem', padding: '1.75rem 2rem',
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap',
-            }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                    <div style={{ width: '52px', height: '52px', borderRadius: '0.875rem', background: 'linear-gradient(135deg, #5B6CFF 0%, #7C3AED 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 16px rgba(91,108,255,0.35)' }}>
-                        <TrendingUp size={24} color="white" />
-                    </div>
-                    <div>
-                        <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '4px' }}>Track Your Progress</h2>
-                        <p style={{ color: '#475569', fontSize: '0.95rem', fontWeight: 500 }}>Log BMI, weight, sleep & exercise — view your trend charts.</p>
-                    </div>
-                </div>
-                <button
-                    onClick={() => navigate('/progress')}
-                    style={{
-                        display: 'inline-flex', alignItems: 'center', gap: '6px',
-                        background: 'linear-gradient(135deg, #5B6CFF 0%, #7C3AED 100%)',
-                        color: 'white', border: 'none', borderRadius: '0.875rem',
-                        padding: '0.75rem 1.5rem', fontWeight: 700, fontSize: '1rem',
-                        fontFamily: 'inherit', cursor: 'pointer',
-                        boxShadow: '0 6px 18px rgba(91,108,255,0.4)',
-                        transition: 'all 0.2s ease',
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 28px rgba(91,108,255,0.5)'; }}
-                    onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(91,108,255,0.4)'; }}
-                >
-                    View History Charts <ChevronRight size={16} />
-                </button>
             </div>
         </div>
     );
