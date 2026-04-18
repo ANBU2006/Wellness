@@ -183,3 +183,14 @@ exports.getDashboardData = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+exports.getAdviceHistory = async (req, res) => {
+    try {
+        const adviceList = await Advice.find({ userId: req.user.id })
+            .populate('coachId', 'name')
+            .sort({ date: -1 });
+        res.json(adviceList);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};

@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
-import { Activity, Apple, Dumbbell, MessageSquare, TrendingUp, Clock, ChevronRight, Heart } from 'lucide-react';
+import { Activity, Apple, Dumbbell, MessageSquare, TrendingUp, Clock, ChevronRight, Heart, History, User } from 'lucide-react';
 
 const Dashboard = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [adviceHistory, setAdviceHistory] = useState([]);
+    const [historyExpanded, setHistoryExpanded] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -13,6 +15,9 @@ const Dashboard = () => {
             .then(res => setData(res.data))
             .catch(console.error)
             .finally(() => setLoading(false));
+        api.get('/user/advice-history')
+            .then(res => setAdviceHistory(res.data))
+            .catch(console.error);
     }, []);
 
     if (loading) return (
@@ -216,6 +221,128 @@ const Dashboard = () => {
                         </p>
                     )}
                 </div>
+            </div>
+
+            {/* ── Coach Advice History ── */}
+            <div className="card" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
+                {/* Header row */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ display: 'inline-flex', padding: '6px', background: '#FDF4FF', borderRadius: '8px', color: '#A855F7' }}>
+                            <History size={16} />
+                        </span>
+                        <h2 style={{ fontSize: '1.15rem', fontWeight: 700 }}>Coach Advice History</h2>
+                        {adviceHistory.length > 0 && (
+                            <span style={{
+                                padding: '2px 10px', borderRadius: '9999px',
+                                background: '#EEF2FF', color: '#5B6CFF',
+                                fontSize: '0.78rem', fontWeight: 700,
+                            }}>{adviceHistory.length}</span>
+                        )}
+                    </div>
+                    {adviceHistory.length > 3 && (
+                        <button
+                            onClick={() => setHistoryExpanded(!historyExpanded)}
+                            style={{
+                                display: 'inline-flex', alignItems: 'center', gap: '4px',
+                                background: 'none', border: '1.5px solid #E2E8F0',
+                                borderRadius: '0.625rem', padding: '0.4rem 0.875rem',
+                                fontWeight: 600, fontSize: '0.85rem', color: '#475569',
+                                cursor: 'pointer', fontFamily: 'inherit',
+                                transition: 'all 0.2s',
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.borderColor = '#5B6CFF'; e.currentTarget.style.color = '#5B6CFF'; }}
+                            onMouseLeave={e => { e.currentTarget.style.borderColor = '#E2E8F0'; e.currentTarget.style.color = '#475569'; }}
+                        >
+                            {historyExpanded ? 'Show Less' : `View All ${adviceHistory.length}`}
+                            <ChevronRight size={14} style={{ transform: historyExpanded ? 'rotate(270deg)' : 'rotate(90deg)', transition: 'transform 0.2s' }} />
+                        </button>
+                    )}
+                </div>
+
+                {adviceHistory.length === 0 ? (
+                    <div style={{
+                        display: 'flex', flexDirection: 'column', alignItems: 'center',
+                        padding: '2rem', background: '#F8FAFC', borderRadius: '1rem', gap: '0.75rem',
+                    }}>
+                        <div style={{ width: '48px', height: '48px', borderRadius: '0.875rem', background: '#FDF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <History size={22} color="#A855F7" />
+                        </div>
+                        <p style={{ color: '#94A3B8', fontWeight: 500, fontSize: '0.95rem', textAlign: 'center' }}>No advice history yet. Your coach will send advice soon.</p>
+                    </div>
+                ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem', position: 'relative' }}>
+                        {/* Vertical timeline line */}
+                        <div style={{
+                            position: 'absolute', left: '19px', top: '28px',
+                            bottom: '28px', width: '2px',
+                            background: 'linear-gradient(180deg, #5B6CFF33, #A855F733)',
+                            borderRadius: '1px',
+                        }} />
+
+                        {(historyExpanded ? adviceHistory : adviceHistory.slice(0, 3)).map((item, idx) => (
+                            <div key={item._id || idx} style={{
+                                display: 'flex', alignItems: 'flex-start', gap: '1rem',
+                                opacity: 1, animation: 'fadeIn 0.3s ease',
+                            }}>
+                                {/* Timeline dot */}
+                                <div style={{
+                                    flexShrink: 0,
+                                    width: '38px', height: '38px',
+                                    borderRadius: '50%',
+                                    background: idx === 0
+                                        ? 'linear-gradient(135deg, #5B6CFF 0%, #7C3AED 100%)'
+                                        : '#EEF2FF',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    boxShadow: idx === 0 ? '0 4px 12px rgba(91,108,255,0.35)' : 'none',
+                                    zIndex: 1,
+                                }}>
+                                    <User size={16} color={idx === 0 ? 'white' : '#5B6CFF'} />
+                                </div>
+
+                                {/* Advice bubble */}
+                                <div style={{
+                                    flex: 1,
+                                    background: idx === 0
+                                        ? 'linear-gradient(135deg, rgba(91,108,255,0.06), rgba(124,58,237,0.06))'
+                                        : '#F8FAFC',
+                                    border: idx === 0 ? '1.5px solid rgba(91,108,255,0.2)' : '1.5px solid #E2E8F0',
+                                    borderRadius: '1rem',
+                                    padding: '1rem 1.25rem',
+                                }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                            <span style={{ fontWeight: 700, fontSize: '0.9rem', color: '#1E293B' }}>
+                                                Coach {item.coachId?.name || 'Unknown'}
+                                            </span>
+                                            {idx === 0 && (
+                                                <span style={{
+                                                    padding: '1px 8px', borderRadius: '9999px',
+                                                    background: 'linear-gradient(135deg, #5B6CFF, #7C3AED)',
+                                                    color: 'white', fontSize: '0.7rem', fontWeight: 700,
+                                                }}>Latest</span>
+                                            )}
+                                        </div>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#94A3B8', fontSize: '0.78rem', fontWeight: 500 }}>
+                                            <Clock size={12} />
+                                            {new Date(item.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                        </div>
+                                    </div>
+                                    <p style={{
+                                        fontStyle: 'italic', color: '#334155',
+                                        lineHeight: 1.65, fontSize: '0.95rem',
+                                    }}>"{item.content}"</p>
+                                </div>
+                            </div>
+                        ))}
+
+                        {!historyExpanded && adviceHistory.length > 3 && (
+                            <p style={{ textAlign: 'center', color: '#94A3B8', fontSize: '0.85rem', marginTop: '0.25rem' }}>
+                                + {adviceHistory.length - 3} more advice entries
+                            </p>
+                        )}
+                    </div>
+                )}
             </div>
 
             {/* ── CTA: Track Progress ── */}
