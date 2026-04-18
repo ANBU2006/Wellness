@@ -10,6 +10,7 @@ const CoachDashboard = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [adviceText, setAdviceText] = useState('');
     const [editingAdviceId, setEditingAdviceId] = useState(null);
+    const [showAdviceHistory, setShowAdviceHistory] = useState(false);
     const [protocols, setProtocols] = useState([]);
     const [loading, setLoading] = useState(true);
     const [view, setView] = useState('users');
@@ -67,6 +68,7 @@ const CoachDashboard = () => {
             setSelectedUser(res.data);
             setEditingAdviceId(null);
             setAdviceText('');
+            setShowAdviceHistory(false);
         } catch (err) {
             console.error(err);
         }
@@ -295,25 +297,60 @@ const CoachDashboard = () => {
                                             </div>
                                         </form>
 
-                                        <div style={{ marginTop: '2rem' }}>
-                                            <h4 style={{ fontSize: '0.875rem', fontWeight: 700, color: '#475569', marginBottom: '1rem' }}>ADVICE HISTORY</h4>
-                                            {selectedUser.adviceHistory?.length > 0 ? (
-                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                                    {selectedUser.adviceHistory.slice().reverse().map((adv) => (
-                                                        <div key={adv._id} style={{ padding: '0.75rem', background: '#f8fafc', borderRadius: '0.5rem', borderLeft: '3px solid var(--primary)', display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-                                                            <div>
-                                                                <p style={{ fontSize: '0.95rem', color: '#1e293b', fontWeight: 500 }}>{adv.content}</p>
-                                                                <p style={{ fontSize: '0.82rem', color: '#475569', marginTop: '0.25rem', fontWeight: 500 }}>{new Date(adv.date).toLocaleDateString()}</p>
-                                                            </div>
-                                                            <div style={{ display: 'flex', gap: '0.25rem' }}>
-                                                                <button onClick={() => handleEditAdvice(adv)} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer' }}><Edit size={14} /></button>
-                                                                <button onClick={() => handleDeleteAdvice(adv._id)} style={{ background: 'none', border: 'none', color: 'var(--error)', cursor: 'pointer' }}><Trash2 size={14} /></button>
-                                                            </div>
+                                        <div style={{ marginTop: '1.5rem', borderTop: '1px solid #F1F5F9', paddingTop: '1.25rem' }}>
+                                            {/* Toggle button */}
+                                            <button
+                                                onClick={() => setShowAdviceHistory(!showAdviceHistory)}
+                                                style={{
+                                                    display: 'inline-flex', alignItems: 'center', gap: '8px',
+                                                    background: showAdviceHistory ? '#EEF2FF' : '#F8FAFC',
+                                                    border: '1.5px solid',
+                                                    borderColor: showAdviceHistory ? '#5B6CFF' : '#E2E8F0',
+                                                    borderRadius: '0.75rem',
+                                                    padding: '0.55rem 1rem',
+                                                    fontWeight: 700, fontSize: '0.875rem',
+                                                    color: showAdviceHistory ? '#5B6CFF' : '#475569',
+                                                    cursor: 'pointer', fontFamily: 'inherit',
+                                                    transition: 'all 0.2s',
+                                                }}
+                                            >
+                                                <Clock size={15} />
+                                                Advice History
+                                                {(selectedUser.adviceHistory?.length > 0) && (
+                                                    <span style={{
+                                                        background: showAdviceHistory ? '#5B6CFF' : '#E2E8F0',
+                                                        color: showAdviceHistory ? 'white' : '#475569',
+                                                        borderRadius: '9999px',
+                                                        padding: '1px 8px', fontSize: '0.75rem', fontWeight: 700,
+                                                    }}>{selectedUser.adviceHistory.length}</span>
+                                                )}
+                                                <ChevronRight size={14} style={{ transform: showAdviceHistory ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
+                                            </button>
+
+                                            {/* Expandable history */}
+                                            {showAdviceHistory && (
+                                                <div style={{ marginTop: '1rem' }}>
+                                                    {selectedUser.adviceHistory?.length > 0 ? (
+                                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                                                            {selectedUser.adviceHistory.slice().reverse().map((adv) => (
+                                                                <div key={adv._id} style={{ padding: '0.875rem 1rem', background: '#F8FAFC', borderRadius: '0.75rem', borderLeft: '3px solid #5B6CFF', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem' }}>
+                                                                    <div style={{ flex: 1 }}>
+                                                                        <p style={{ fontSize: '0.9rem', color: '#1e293b', fontWeight: 500, lineHeight: 1.5 }}>{adv.content}</p>
+                                                                        <p style={{ fontSize: '0.78rem', color: '#94A3B8', marginTop: '0.35rem', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                                            <Clock size={11} /> {new Date(adv.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div style={{ display: 'flex', gap: '0.25rem', flexShrink: 0 }}>
+                                                                        <button onClick={() => handleEditAdvice(adv)} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', padding: '4px' }}><Edit size={14} /></button>
+                                                                        <button onClick={() => handleDeleteAdvice(adv._id)} style={{ background: 'none', border: 'none', color: 'var(--error)', cursor: 'pointer', padding: '4px' }}><Trash2 size={14} /></button>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
                                                         </div>
-                                                    ))}
+                                                    ) : (
+                                                        <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', padding: '0.75rem 0' }}>No previous advice recorded.</p>
+                                                    )}
                                                 </div>
-                                            ) : (
-                                                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>No previous advice recorded.</p>
                                             )}
                                         </div>
                                     </div>
